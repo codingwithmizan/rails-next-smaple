@@ -1,5 +1,6 @@
 import { FC, ReactNode } from "react";
-import"@/assets/css/main.css";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import "@/assets/css/main.css";
 
 interface Props {
   children: Readonly<ReactNode>;
@@ -8,7 +9,9 @@ interface Props {
 const RootLayout: FC<Props> = ({ children }) => {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <NuqsAdapter>{children}</NuqsAdapter>
+      </body>
     </html>
   );
 };

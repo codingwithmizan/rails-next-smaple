@@ -1,39 +1,40 @@
-import { useQueryStates, parseAsInteger, parseAsString } from "nuqs";
+import {
+  useQueryStates,
+  parseAsInteger,
+  parseAsString,
+  parseAsStringEnum,
+} from "nuqs";
 
-type SearchParams = {
-  sort: string;
-  query: string;
-  page: number;
-};
+export type SortOrder = "asc" | "desc";
 
-type SetSearchParams = {
-  setSort: (newSort: string) => void;
-  setQuery: (newQuery: string) => void;
-  setPage: (newPage: number) => void;
-};
-
-export const useSearchParams = (): SearchParams & SetSearchParams => {
+export const useSearchParams = () => {
   const [params, setParams] = useQueryStates(
     {
-      sort: parseAsString.withDefault("asc"),
-      query: parseAsString.withDefault(""),
       page: parseAsInteger.withDefault(1),
+      perPage: parseAsInteger.withDefault(3),
+      query: parseAsString.withDefault(""),
+      sort: parseAsStringEnum<SortOrder>(["asc", "desc"]).withDefault("asc"),
     },
     {
       shallow: false,
+      // history: "push",
+      // clearOnDefault: false,
     }
   );
 
-  const setSort = (sort: string) => setParams({ sort, page: 1 });
-  const setQuery = (query: string) => setParams({ query, page: 1 });
-  const setPage = (page: number) => setParams({ page });
+  const setPage = (page: number) => setParams((prev) => ({ ...prev, page }));
+  const setPerPage = (perPage: number) =>
+    setParams((prev) => ({ ...prev, perPage, page: 1 }));
+  const setQuery = (query: string) =>
+    setParams((prev) => ({ ...prev, query, page: 1 }));
+  const setSort = (sort: SortOrder) =>
+    setParams((prev) => ({ ...prev, sort, page: 1 }));
 
   return {
-    sort: params.sort,
-    query: params.query,
-    page: params.page,
-    setSort,
-    setQuery,
+    ...params,
     setPage,
+    setPerPage,
+    setQuery,
+    setSort,
   };
 };

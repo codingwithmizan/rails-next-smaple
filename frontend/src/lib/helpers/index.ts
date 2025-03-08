@@ -1,6 +1,7 @@
 import moment from "moment";
 import { twMerge } from "tailwind-merge";
 import clsx, { ClassValue } from "clsx";
+import { FieldError } from "react-hook-form";
 
 export const scrollToTop = (): void => {
   const c = document.documentElement.scrollTop || document.body.scrollTop;
@@ -106,4 +107,16 @@ export const getBase64 = (file: File): Promise<string> => {
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
+};
+
+export const getValue = (formData: FormData, key: string) => {
+  return formData.get(key)?.toString().trim() || "";
+};
+
+
+export const getErrorMessage = (error: FieldError | undefined): string | undefined => {
+  if (error && typeof error.message === "string") {
+    return error.message;
+  }
+  return undefined;
 };
