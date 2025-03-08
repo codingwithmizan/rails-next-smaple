@@ -1,48 +1,8 @@
-# Dependency directories
-node_modules/
-
-# Build output
-.next/
-out/
-
-# Local environment files
-.env*.local
-.env.development
-.env.test
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Ignore version control files
-.git
-.gitignore
-
-# Docker files
-Dockerfile
-.dockerignore
-docker-compose*.yml
-
-# IDE/Editor
-.vscode/
-.idea/
-
-# Testing
-__tests__/
-coverage/
-
-# OS generated files
+node_modules
+.next
 .DS_Store
-
-# Cache directories
-.cache/
-.npm/
-.yarn/
-
-# Optional TypeScript build output
-dist/
-
-# Ignore miscellaneous development files
-*.md
-LICENSE
+.envrc
+!.env
+!.env.local
+!.env.development
+!.env.production
