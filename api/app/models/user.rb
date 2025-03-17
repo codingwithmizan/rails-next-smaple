@@ -18,5 +18,4 @@ class User < ApplicationRecord
       errors.add(:password_confirmation, "Passwords do not match.")
     end
   end
-
 end

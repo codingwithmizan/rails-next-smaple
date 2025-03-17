@@ -29,5 +29,7 @@ module Api
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
+    config.time_zone = "Asia/Dhaka"
+    config.active_record.default_timezone = :local
   end
 end

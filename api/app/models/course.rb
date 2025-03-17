@@ -4,5 +4,4 @@ class Course < ApplicationRecord
   has_one_attached :cover_photo
 
   enum :status, [ :pending, :active, :cancelled ]
-
 end
