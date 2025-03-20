@@ -11,7 +11,7 @@ export const useSearchParams = () => {
   const [params, setParams] = useQueryStates(
     {
       page: parseAsInteger.withDefault(1),
-      perPage: parseAsInteger.withDefault(3),
+      perPage: parseAsInteger.withDefault(5),
       query: parseAsString.withDefault(""),
       sort: parseAsStringEnum<SortOrder>(["asc", "desc"]).withDefault("asc"),
     },

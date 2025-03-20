@@ -1,10 +1,10 @@
 export const dynamic = "force-dynamic";
+import { FC } from "react";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { deleteData, getData } from "@/lib/services/api";
-import { Product } from "@/lib/models";
+import { ProductsResponse } from "@/lib/models";
 import { ProductCard, ProductSearch } from "@/components/products";
-import { FC } from "react";
 import { Pagination } from "@/components/common";
 
 interface Props {
@@ -12,13 +12,13 @@ interface Props {
 }
 
 const ProductList: FC<Props> = async ({ searchParams }) => {
-  const { query = "", page = 1, perPage = 3 } = await searchParams;
+  const { query = "", page = 1, perPage = 5 } = await searchParams;
 
-  const res = await getData<{ products: Product[]; total: number }>(
+  const res = await getData<ProductsResponse>(
     `products?page=${page}&query=${query}&per_page=${perPage}`
   );
   const products = res.data?.products || [];
-  const total = res.data?.total || 0;
+  const page_meta = res.data?.meta;
 
   const deleteProduct = async (id: number) => {
     "use server";
@@ -48,7 +48,10 @@ const ProductList: FC<Props> = async ({ searchParams }) => {
         <ProductSearch />
         <ProductCard products={products} deleteProduct={deleteProduct} />
         <div className="mt-6">
-          <Pagination total={total} />
+          <Pagination
+            total_pages={page_meta?.total_pages || 0}
+            total_count={page_meta?.total_count || 0}
+          />
         </div>
       </div>
     </div>

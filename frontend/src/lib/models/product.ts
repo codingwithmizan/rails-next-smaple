@@ -1,3 +1,10 @@
+import { PaginationMeta } from "@/lib/models/meta";
+
+export interface ProductsResponse {
+  products: Product[];
+  meta: PaginationMeta;
+}
+
 export interface Product {
   id: number;
   title: string;

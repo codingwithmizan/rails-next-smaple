@@ -1,3 +1,10 @@
+import { PaginationMeta } from "@/lib/models/meta";
+
+export interface UsersResponse {
+  users: User[];
+  meta: PaginationMeta;
+}
+
 export interface User {
   id: number;
   name: string;

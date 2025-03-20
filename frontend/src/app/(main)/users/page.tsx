@@ -1,12 +1,22 @@
 //user list page
+import { FC } from "react";
 import Link from "next/link";
 import { getData } from "@/lib/services/api";
-import { User } from "@/lib/models";
+import { UsersResponse } from "@/lib/models";
 import { UserCard } from "@/components/users/UserCard";
+import { Pagination } from "@/components/common";
 
-const UserList = async () => {
-  const res = await getData<User[]>("users");
-  const users = res.data || [];
+interface Props {
+  searchParams: Promise<{ query?: string; page?: string; perPage?: string }>;
+}
+
+const UserList: FC<Props> = async ({ searchParams }) => {
+  const { query = "", page = 1, perPage = 5 } = await searchParams;
+  const res = await getData<UsersResponse>(
+    `users?page=${page}&query=${query}&per_page=${perPage}`
+  );
+  const users = res.data?.users || [];
+  const page_meta = res.data?.meta;
 
   return (
     <div className="mx-10">
@@ -25,6 +35,12 @@ const UserList = async () => {
         {users.map((user) => (
           <UserCard user={user} key={user.id} />
         ))}
+      </div>
+      <div className="mt-6">
+        <Pagination
+          total_pages={page_meta?.total_pages || 0}
+          total_count={page_meta?.total_count || 0}
+        />
       </div>
     </div>
   );
